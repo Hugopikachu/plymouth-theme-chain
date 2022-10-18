@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=chain
+Description=Custom splash screen
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/chain/images
+ScriptFile=/usr/share/plymouth/themes/chain/chain.script

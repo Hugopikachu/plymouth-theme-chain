@@ -1,0 +1,256 @@
+# --------------------------------- Debug -------------------------------------
+
+debugsprite = Sprite();
+
+// Print a message in the top left-hand corner
+fun debug(text) {
+    debugsprite.SetImage(Image.Text(text, 0.8, 0.8, 0.8, 0.8));
+}
+
+
+# --------------------------------- Colors ------------------------------------
+
+// WARNING : colors should be changed using the change-color.sh script
+//           to avoid issues and be consistent with the animation and other
+//           graphical elements.
+
+// Background color components
+BG_COLOR.RED = 0.09019;
+BG_COLOR.GREEN = 0.09019;
+BG_COLOR.BLUE = 0.09019;
+
+// Main theme color components
+MAIN_COLOR.RED = 0.86274;
+MAIN_COLOR.GREEN = 0.00000;
+MAIN_COLOR.BLUE = 0.21568;
+
+// Secondary color components
+SECONDARY_COLOR.RED = 0.26666;
+SECONDARY_COLOR.GREEN = 0.26666;
+SECONDARY_COLOR.BLUE = 0.26666;
+
+
+# ----------------------------- Configuration ---------------------------------
+
+// Position of the animation
+ANIM_CENTER_PCT.x = 0.5;            // Percent of the screen width
+ANIM_CENTER_PCT.y = 0.5;            // Percent of the screen height
+
+// Position of the progress bar
+BAR_CENTER_PCT.x = 0.5;             // Percent of the screen width
+BAR_CENTER_PCT.y = 0.8;             // Percent of the screen height
+
+// Position of the lock icon
+LOCK_CENTER_PCT.x = 0.5;            // Percent of the screen width
+LOCK_CENTER_PCT.y = 0.5;           // Percent of the screen height
+
+// Position of the text input
+INPUT_CENTER_PCT.x = 0.5;           // Percent of the screen width
+INPUT_CENTER_PCT.y = 0.65;          // Percent of the screen height
+
+// Font for password prompt, questions and messages
+MAIN_FONT = "Noto Sans 16";
+
+// Placeholder in password prompt
+INPUT_PLACEHOLDER = "Password";
+
+// Character used to obfuscate password 
+BULLET_CHAR = "•";
+
+
+# ------------------------------ initialization --------------------------------
+
+// Get screen dimensions
+screen.width = Window.GetWidth();
+screen.height = Window.GetHeight();
+
+// Set background color
+Window.SetBackgroundTopColor(BG_COLOR.RED, BG_COLOR.GREEN, BG_COLOR.BLUE);
+Window.SetBackgroundBottomColor(BG_COLOR.RED, BG_COLOR.GREEN, BG_COLOR.BLUE);
+
+// Initialize global state
+status = "normal";
+
+
+# ------------------------------- Animation -----------------------------------
+
+// Prepare animation
+animation.length = 0;
+animation.current_frame = 0;
+animation.sprite = Sprite();
+
+// Load every .png in ImageDir/animation in numerical order and store it
+// in animation.images array. Doing this, we update animation.length to
+// hold the count of frames loaded. Eventually, the while loop breaks 
+// as soon as it fails to load the next PNG.
+while (1) {
+    local.image = Image("animation/" + animation.length + ".png");
+
+    if (!image) break;
+
+    animation.images[animation.length++] = image;
+}
+
+// Set animation opacity to 0 and make it invisible
+fun hide_animation() {
+    animation.sprite.SetOpacity(0);
+}
+
+// Set animation opacity to 1 and make it visible
+fun show_animation() {
+    animation.sprite.SetOpacity(1);
+}
+
+fun refresh_callback() {
+    // Only update the logo animation when the process is running normally.
+    // In other cases, pause and hide the animation to allow other
+    // information to be displayed.
+    if (global.status == "normal") {
+
+        #debug("current frame = " + animation.current_frame);
+
+        // Load image and update the animation sprite
+        local.current_image = animation.images[animation.current_frame];
+        animation.sprite.SetImage(current_image);
+
+        // When the images are all the same dimensions, it would be more
+        // efficient to set the sprite position once at initialization
+        // but in the case frames are not all the same size, we update it here
+        animation.sprite.SetX(ANIM_CENTER_PCT.x * screen.width - current_image.GetWidth() / 2);
+        animation.sprite.SetY(ANIM_CENTER_PCT.y * screen.height - current_image.GetHeight() / 2);
+
+        // Then update current frame
+        animation.current_frame++;
+        if (animation.current_frame == animation.length) 
+            animation.current_frame = 0;
+    } else if (global.status == "password") {
+        hide_animation();
+        hide_progress_bar();
+        show_password_dialog();
+    }
+}
+  
+Plymouth.SetRefreshFunction(refresh_callback);
+
+
+# --------------------------- Progress Indicator ------------------------------
+
+// Load and set the progress bar background
+bar.background.image = Image("bar-background.png");
+bar.background.sprite = Sprite(bar.background.image);
+bar.background.sprite.SetX(BAR_CENTER_PCT.x * screen.width - bar.background.image.GetWidth() / 2);
+bar.background.sprite.SetY(BAR_CENTER_PCT.y * screen.height - bar.background.image.GetHeight() / 2);
+
+// Load the progress bar
+bar.image = Image("bar-progress.png");
+bar.sprite = Sprite();
+bar.sprite.SetX(BAR_CENTER_PCT.x * screen.width - bar.background.image.GetWidth() / 2);
+bar.sprite.SetY(BAR_CENTER_PCT.y * screen.height - bar.background.image.GetHeight() / 2);
+
+fun hide_progress_bar() {
+    bar.sprite.SetOpacity(0);
+    bar.background.sprite.SetOpacity(0);
+}
+
+fun show_progress_bar() {
+    bar.sprite.SetOpacity(1);
+    bar.background.sprite.SetOpacity(1);
+}
+
+fun boot_progress_callback(time, progress) {
+    
+    #debug ("boot time = " + time + ", boot progress = " + progress);
+
+    // Grow the progress bar size with the current progress percent
+    bar.sprite.SetImage(bar.image.Scale(progress * bar.image.GetWidth(), bar.image.GetHeight()));
+
+}
+
+Plymouth.SetBootProgressFunction(boot_progress_callback);
+
+
+# ---------------------------- Password dialog --------------------------------
+
+// Load and place the lock icon
+lock.image = Image("lock.png");
+lock.width = lock.image.GetWidth();
+lock.height = lock.image.GetHeight();
+lock.sprite = Sprite(lock.image);
+lock.sprite.SetX(LOCK_CENTER_PCT.x * screen.width - lock.width / 2);
+lock.sprite.SetY(LOCK_CENTER_PCT.y * screen.height  - lock.height / 2);
+
+// Load and place the password input zone
+input.image = Image("input.png");
+input.sprite = Sprite(input.image);
+input.sprite.SetX(INPUT_CENTER_PCT.x * screen.width - input.image.GetWidth() / 2);
+input.sprite.SetY(INPUT_CENTER_PCT.y * screen.height - input.image.GetHeight() / 2);
+
+// Initiate the bullet string
+// We cannot set the position now as the image will change in size
+bullets.sprite = Sprite();
+
+// Make password dialog elements invisible
+fun hide_password_dialog() {
+    lock.sprite.SetOpacity(0);
+    input.sprite.SetOpacity(0);
+    bullets.sprite.SetOpacity(0);
+}
+
+// Make password dialog elements visible
+fun show_password_dialog() {
+    lock.sprite.SetOpacity(1);
+    input.sprite.SetOpacity(1);
+    bullets.sprite.SetOpacity(1);
+}
+
+fun display_password_callback(prompt, n_bullets) {
+    global.status = "password";
+
+    // Create the string of bullets
+    bullets.string = "";
+    while (n_bullets--) bullets.string += BULLET_CHAR;
+
+    // Display placeholder text when necessary
+    if (!bullets.string) bullets.string = INPUT_PLACEHOLDER;
+
+    #debug(bullets.string);
+
+    // Create image from text
+    bullets.image = Image.Text(
+        bullets.string,         // The string
+        MAIN_COLOR.RED,           // Red components
+        MAIN_COLOR.GREEN,         // Green component
+        MAIN_COLOR.BLUE,          // Blue component
+        1,                      // Alpha component
+        MAIN_FONT               // Font
+    );
+
+    // Display bullets
+    bullets.sprite.SetImage(bullets.image);
+    bullets.sprite.SetX(INPUT_CENTER_PCT.x * screen.width - bullets.image.GetWidth() / 2);
+    bullets.sprite.SetY(INPUT_CENTER_PCT.y * screen.height - bullets.image.GetHeight() / 2);
+}
+
+Plymouth.SetDisplayPasswordFunction(display_password_callback);
+
+
+#------------------------------ Display Normal --------------------------------
+
+fun display_normal_callback() {
+    global.status = "normal";
+
+    #debug("Return to normal");
+
+    hide_password_dialog();
+    show_animation();
+    show_progress_bar();
+}
+
+Plymouth.SetDisplayNormalFunction(display_normal_callback);
+
+
+#----------------------------------------- Quit --------------------------------
+
+fun quit_callback() {}
+
+Plymouth.SetQuitFunction(quit_callback);
