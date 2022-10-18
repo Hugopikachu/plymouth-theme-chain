@@ -1,13 +1,9 @@
 # **Chain Plymouth Theme**
 
-<br>
-
 ## **Description**
 
 This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/Plymouth) inspired by the blockchain theme in [plymouth themes](https://github.com/adi1090x/plymouth-themes).
 
-
-<br>
 
 ## **Preview**
 
@@ -15,19 +11,13 @@ This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/
 | --- | ------- | -------- |
 |![gif](preview/anim.gif)|![png](preview/load.png)|![png](preview/pass.png)|
 
-<br>
-
 ## **Installation**
 
 You can use [this](https://wiki.archlinux.org/index.php/plymouth) entry in Archwiki to setup Plymouth and change themes.
 
-<br>
-
 ## **Customization**
 
 To help better adapt the plymouth theme to different computers, distros and rices, some elements are made customizable.
-
-<br>
 
 ### **Positions and texts**
 
@@ -41,8 +31,6 @@ Available customizations:
 - the main font
 - the placeholder text for the password prompt
 - the character to use to obfuscate the password (bullet)
-
-<br>
 
 ### **Colors**
 
