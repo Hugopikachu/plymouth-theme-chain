@@ -1,4 +1,4 @@
-# **Chain Plymouth Theme**
+# **Plymouth Theme Chain**
 
 ## **Description**
 
