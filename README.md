@@ -21,7 +21,7 @@ To help better adapt the plymouth theme to different computers, distros and rice
 
 ### **Positions and texts**
 
-The file **chain.script** exposes a *Configuration* section in wich the position of individual elements can be customized, as well as the font in use and the different texts used.
+The file **chain.script** exposes a *Configuration* section in wich the position of individual elements can be customized, as well as the font in use and the different texts.
 
 Available customizations:
 - the position of the animation
@@ -30,7 +30,7 @@ Available customizations:
 - the position of the password prompt
 - the main font
 - the placeholder text for the password prompt
-- the character to use to obfuscate the password (bullet)
+- the character used to obfuscate the password (bullet)
 
 ### **Colors**
 
