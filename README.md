@@ -4,16 +4,12 @@
 
 ## **Description**
 
-<br>
-
 This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/Plymouth) inspired by the blockchain theme in [plymouth themes](https://github.com/adi1090x/plymouth-themes).
 
 
 <br>
 
 ## **Preview**
-
-<br>
 
 | GIF | Loading | Password |
 | --- | ------- | -------- |
@@ -23,23 +19,17 @@ This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/
 
 ## **Installation**
 
-<br>
-
 You can use [this](https://wiki.archlinux.org/index.php/plymouth) entry in Archwiki to setup Plymouth and change themes.
 
 <br>
 
 ## **Customization**
 
-<br>
-
 To help better adapt the plymouth theme to different computers, distros and rices, some elements are made customizable.
 
 <br>
 
 ### **Positions and texts**
-
-<br>
 
 The file **chain.script** exposes a *Configuration* section in wich the position of individual elements can be customized, as well as the font in use and the different texts used.
 
@@ -55,8 +45,6 @@ Available customizations:
 <br>
 
 ### **Colors**
-
-<br>
 
 The color palette of this theme consists of three following components:
 - the main color for animation, progress bar, icons and password text,
