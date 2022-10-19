@@ -15,7 +15,7 @@ This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/
 
 Simply place the content of this repo in */usr/share/plymouth/themes/chain* and use `plymouth-set-default-theme chain` to set the new theme. In some distributions like Ubuntu, changing the Plymouth theme must be done with `update-alternatives`.
 
-Once the theme changed, you can use the following command to test it : 
+Once the theme changed, you can use the following command to test it :
 
 ```bash
 plymouthd; plymouth show-splash; sleep 3; plymouth ask-for-password; sleep 2; plymouth quit
@@ -24,6 +24,35 @@ plymouthd; plymouth show-splash; sleep 3; plymouth ask-for-password; sleep 2; pl
 If you are satisfied with the result, you can rebuild your initrd/ramfs.
 
 You can use [this](https://wiki.archlinux.org/index.php/plymouth) entry in Archwiki for more information about settting up Plymouth and changing themes.
+
+### Arch-based distributions
+
+You can install [plymouth-theme-chain][1] package from Arch User Repository:
+
+```shell
+git clone https://aur.archlinux.org/plymouth-theme-chain.git
+cd plymouth-theme-chain
+makepkg -si
+
+# or using AUR helper
+paru -S plymouth-theme-chain
+
+```
+If you want to set `chain` as your plymouth theme, edit `/etc/plymouth/plymouthd.conf`:
+
+```shell
+# /etc/plymouth/plymouthd.conf
+
+[Daemon]
+Theme=chain
+ShowDelay=5
+```
+
+Remember that every time a theme is changed, the initrd must be rebuilt. The -R option ensures that it is rebuilt (otherwise manually run `mkinitcpio -P`):
+
+```shell
+# plymouth-set-default-theme -R chain
+```
 
 ## **Customization**
 
@@ -73,4 +102,6 @@ Mode can be one of the following
 ## **Improvements**
 
 - Distinguish between boot/resume and suspend/shutdown modes using `Plymouth.GetMode()` to show or hide some elements (such as the progress bar)
-- Set a message callback to filter and display boot messages somewhere  
+- Set a message callback to filter and display boot messages somewhere
+
+[1]: https://aur.archlinux.org/packages/plymouth-theme-chain
