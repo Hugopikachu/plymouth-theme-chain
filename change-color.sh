@@ -1,5 +1,6 @@
 #! /bin/bash
-
+# If the bash locale has another decimal seperator as '.' there would be an error (i.e. de_DE.utf8)
+LC_ALL=C
 
 ########## HELPERS ##########
 
