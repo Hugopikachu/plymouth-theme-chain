@@ -81,9 +81,9 @@ change_main() {
     is_hexadecimal_color $color || usage
 
     # Change colors in PNGs
-    convert images/bar-progress.png -fill $color +opaque $color images/bar-progress.png
-    convert images/lock.png -fill $color +opaque $color images/lock.png
-    find ./images/animation -type f -name "*.png" -exec convert {} -fill $color +opaque $color {} \;
+    convert images/bar-progress.png -channel RGB -fuzz 100% -fill $color -opaque $color images/bar-progress.png
+    convert images/lock.png -channel RGB -fuzz 100% -fill $color -opaque $color images/lock.png
+    find ./images/animation -type f -name "*.png" -exec convert {} -channel RGB -fuzz 100% -fill $color -opaque $color {} \;
 
     # Store RGB components in vars $red $green and $blue
     read -r red green blue < <(hex_to_rgb $color)
@@ -106,8 +106,8 @@ change_secondary() {
     is_hexadecimal_color $color || usage
 
     # Change colors in PNGs
-    convert images/bar-background.png -fill $color +opaque $color images/bar-background.png
-    convert images/input.png -fill $color +opaque $color images/input.png
+    convert images/bar-background.png -channel RGB -fuzz 100% -fill $color -opaque $color images/bar-background.png
+    convert images/input.png -channel RGB -fuzz 100% -fill $color -opaque $color images/input.png
 
     # Store RGB components in vars $red $green and $blue
     read -r red green blue < <(hex_to_rgb $color)
@@ -137,8 +137,8 @@ case $1 in
         ;;
     secondary)
         change_secondary $2
-        ;;  
-    *)  
+        ;;
+    *)
         usage
         ;;
 esac
