@@ -13,7 +13,17 @@ This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/
 
 ## **Installation**
 
-You can use [this](https://wiki.archlinux.org/index.php/plymouth) entry in Archwiki to setup Plymouth and change themes.
+Simply place this repo in */usr/share/plymouth/themes/* (rename it if you want) and use `plymouth-set-default-theme` to set the new theme. In some distributions like Ubuntu, changing the Plymouth theme must be done with `update-alternatives`.
+
+Once the theme changed, you can use the following command to test it : 
+
+```bash
+plymouthd; plymouth show-splash; sleep 3; plymouth ask-for-password; sleep 2; plymouth quit
+```
+
+If you are satisfied with the result, you can rebuild your initrd/ramfs.
+
+You can use [this](https://wiki.archlinux.org/index.php/plymouth) entry in Archwiki for more information about settting up Plymouth and changing themes.
 
 ## **Customization**
 
@@ -59,3 +69,8 @@ Mode can be one of the following
 ```
 
 **Be aware that [ImageMagick](https://imagemagick.org/) is needed to replace the colors of the animation and other graphical elements.**
+
+## **Improvements**
+
+- Distinguish between boot/resume and suspend/shutdown modes using `Plymouth.GetMode()` to show or hide some elements (such as the progress bar)
+- Set a message callback to filter and display boot messages somewhere  
