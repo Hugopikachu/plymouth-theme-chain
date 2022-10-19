@@ -13,7 +13,7 @@ This is a custom theme for [Plymouth](https://www.freedesktop.org/wiki/Software/
 
 ## **Installation**
 
-Simply place this repo in */usr/share/plymouth/themes/* (rename it if you want) and use `plymouth-set-default-theme` to set the new theme. In some distributions like Ubuntu, changing the Plymouth theme must be done with `update-alternatives`.
+Simply place the content of this repo in */usr/share/plymouth/themes/chain* and use `plymouth-set-default-theme chain` to set the new theme. In some distributions like Ubuntu, changing the Plymouth theme must be done with `update-alternatives`.
 
 Once the theme changed, you can use the following command to test it : 
 
