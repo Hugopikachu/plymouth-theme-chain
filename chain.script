@@ -50,6 +50,10 @@ BOOT_MESSAGE.center.y = 0.65;
 BAR.center.x = 0.5;
 BAR.center.y = 0.7;
 
+// Position of the status message in percentage of the screen dimensions
+STATUS.center.x = 0.5;
+STATUS.center.y = 0.75;
+
 // Position of the lock icon in percentage of the screen dimensions
 LOCK.center.x = 0.5;
 LOCK.center.y = 0.5;
@@ -187,6 +191,29 @@ if (process == "boot") {
 
     Plymouth.SetBootProgressFunction(boot_progress_callback);
 }
+
+
+# ----------------------------- Status Update ---------------------------------
+#
+# Set up and display the status updates of the boot process
+#
+
+status_message.sprite = Sprite();
+
+fun update_status_callback(status) {
+    status_message.image = Image.Text(status, SECONDARY_COLOR.red, SECONDARY_COLOR.green, SECONDARY_COLOR.blue, 1, SECONDARY_FONT);
+
+    status_message.sprite.SetImage(status_message.image);
+    status_message.sprite.SetX(STATUS.center.x * screen.width - status_message.image.GetWidth() / 2);
+    status_message.sprite.SetY(STATUS.center.y * screen.height - status_message.image.GetHeight() / 2);
+}
+
+fun root_mounted_callback() {
+    update_status_callback("Root successfully mounted");
+}
+
+Plymouth.SetUpdateStatusFunction(update_status_callback);
+Plymouth.SetRootMountedFunction(root_mounted_callback);
 
 
 # ---------------------------- Password dialog --------------------------------
