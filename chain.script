@@ -186,7 +186,8 @@ if (process == "boot") {
 
     fun boot_progress_callback(time, progress) {
         // Grow the progress bar size with the current progress percent
-        bar.sprite.SetImage(bar.image.Scale(progress * bar.image.GetWidth(), bar.image.GetHeight()));
+        // bar.sprite.SetImage(bar.image.Scale(progress * bar.image.GetWidth(), bar.image.GetHeight()));
+        bar.sprite.SetImage(bar.image.Crop(0, 0, progress * bar.image.GetWidth(), bar.image.GetHeight()));
     }
 
     Plymouth.SetBootProgressFunction(boot_progress_callback);
