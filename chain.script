@@ -9,53 +9,53 @@ fun debug(text) {
 
 
 # --------------------------------- Colors ------------------------------------
-
-// WARNING : colors should be changed using the change-color.sh script
-//           to avoid issues and be consistent with the animation and other
-//           graphical elements.
+#
+# WARNING : colors should be changed using the change-color.sh script
+#           to avoid issues and be consistent with the animation and other
+#           graphical elements.
 
 // Background color components
-BG_COLOR.RED = 0.09019;
-BG_COLOR.GREEN = 0.09019;
-BG_COLOR.BLUE = 0.09019;
+BG_COLOR.red = 0.09019;
+BG_COLOR.green = 0.09019;
+BG_COLOR.blue = 0.09019;
 
 // Main theme color components
-MAIN_COLOR.RED = 0.86274;
-MAIN_COLOR.GREEN = 0.00000;
-MAIN_COLOR.BLUE = 0.21568;
+MAIN_COLOR.red = 0.86274;
+MAIN_COLOR.green = 0.00000;
+MAIN_COLOR.blue = 0.21568;
 
 // Secondary color components
-SECONDARY_COLOR.RED = 0.26666;
-SECONDARY_COLOR.GREEN = 0.26666;
-SECONDARY_COLOR.BLUE = 0.26666;
+SECONDARY_COLOR.red = 0.26666;
+SECONDARY_COLOR.green = 0.26666;
+SECONDARY_COLOR.blue = 0.26666;
 
 
 # ----------------------------- Configuration ---------------------------------
 
-// Position of the animation
-ANIM_CENTER_PCT.x = 0.5;            // Percent of the screen width
-ANIM_CENTER_PCT.y = 0.5;            // Percent of the screen height
+// Position of the animation in percentage of the screen dimensions
+LOGO.center.x = 0.5;
+LOGO.center.y = 0.5;
 
-// Position of the progress bar
-BAR_CENTER_PCT.x = 0.5;             // Percent of the screen width
-BAR_CENTER_PCT.y = 0.8;             // Percent of the screen height
+// Position of the progress bar in percentage of the screen dimensions
+BAR.center.x = 0.5;
+BAR.center.y = 0.8;
 
-// Position of the lock icon
-LOCK_CENTER_PCT.x = 0.5;            // Percent of the screen width
-LOCK_CENTER_PCT.y = 0.5;           // Percent of the screen height
-
-// Position of the text input
-INPUT_CENTER_PCT.x = 0.5;           // Percent of the screen width
-INPUT_CENTER_PCT.y = 0.65;          // Percent of the screen height
+// Position of the lock icon in percentage of the screen dimensions
+LOCK.center.x = 0.5;
+LOCK.center.y = 0.5;
 
 // Font for password prompt, questions and messages
 MAIN_FONT = "Noto Sans 16";
 
+// Position of the password prompt in percentage of the screen dimensions
+PROMPT.center.x = 0.5;
+PROMPT.center.y = 0.65;
+
 // Placeholder in password prompt
-INPUT_PLACEHOLDER = "Password";
+PROMPT.placeholder = "Password";
 
 // Character used to obfuscate password 
-BULLET_CHAR = "•";
+PROMPT.bullet = "•";
 
 
 # ------------------------------ initialization --------------------------------
@@ -65,14 +65,17 @@ screen.width = Window.GetWidth();
 screen.height = Window.GetHeight();
 
 // Set background color
-Window.SetBackgroundTopColor(BG_COLOR.RED, BG_COLOR.GREEN, BG_COLOR.BLUE);
-Window.SetBackgroundBottomColor(BG_COLOR.RED, BG_COLOR.GREEN, BG_COLOR.BLUE);
+Window.SetBackgroundTopColor(BG_COLOR.red, BG_COLOR.green, BG_COLOR.blue);
+Window.SetBackgroundBottomColor(BG_COLOR.red, BG_COLOR.green, BG_COLOR.blue);
 
 // Initialize global state
 status = "normal";
 
 
 # ------------------------------- Animation -----------------------------------
+#
+# Setting up and animating the logo
+#
 
 // Prepare animation
 animation.length = 0;
@@ -116,8 +119,8 @@ fun refresh_callback() {
         // When the images are all the same dimensions, it would be more
         // efficient to set the sprite position once at initialization
         // but in the case frames are not all the same size, we update it here
-        animation.sprite.SetX(ANIM_CENTER_PCT.x * screen.width - current_image.GetWidth() / 2);
-        animation.sprite.SetY(ANIM_CENTER_PCT.y * screen.height - current_image.GetHeight() / 2);
+        animation.sprite.SetX(LOGO.center.x * screen.width - current_image.GetWidth() / 2);
+        animation.sprite.SetY(LOGO.center.y * screen.height - current_image.GetHeight() / 2);
 
         // Then update current frame
         animation.current_frame++;
@@ -134,18 +137,21 @@ Plymouth.SetRefreshFunction(refresh_callback);
 
 
 # --------------------------- Progress Indicator ------------------------------
+#
+# Setting up and animating the progresion bar during boot
+#
 
 // Load and set the progress bar background
 bar.background.image = Image("bar-background.png");
 bar.background.sprite = Sprite(bar.background.image);
-bar.background.sprite.SetX(BAR_CENTER_PCT.x * screen.width - bar.background.image.GetWidth() / 2);
-bar.background.sprite.SetY(BAR_CENTER_PCT.y * screen.height - bar.background.image.GetHeight() / 2);
+bar.background.sprite.SetX(BAR.center.x * screen.width - bar.background.image.GetWidth() / 2);
+bar.background.sprite.SetY(BAR.center.y * screen.height - bar.background.image.GetHeight() / 2);
 
 // Load the progress bar
 bar.image = Image("bar-progress.png");
 bar.sprite = Sprite();
-bar.sprite.SetX(BAR_CENTER_PCT.x * screen.width - bar.background.image.GetWidth() / 2);
-bar.sprite.SetY(BAR_CENTER_PCT.y * screen.height - bar.background.image.GetHeight() / 2);
+bar.sprite.SetX(BAR.center.x * screen.width - bar.background.image.GetWidth() / 2);
+bar.sprite.SetY(BAR.center.y * screen.height - bar.background.image.GetHeight() / 2);
 
 fun hide_progress_bar() {
     bar.sprite.SetOpacity(0);
@@ -170,20 +176,23 @@ Plymouth.SetBootProgressFunction(boot_progress_callback);
 
 
 # ---------------------------- Password dialog --------------------------------
+#
+# Setting up and displaying the password prompt for encrypted volumes
+#
 
 // Load and place the lock icon
 lock.image = Image("lock.png");
 lock.width = lock.image.GetWidth();
 lock.height = lock.image.GetHeight();
 lock.sprite = Sprite(lock.image);
-lock.sprite.SetX(LOCK_CENTER_PCT.x * screen.width - lock.width / 2);
-lock.sprite.SetY(LOCK_CENTER_PCT.y * screen.height  - lock.height / 2);
+lock.sprite.SetX(LOCK.center.x * screen.width - lock.width / 2);
+lock.sprite.SetY(LOCK.center.y * screen.height  - lock.height / 2);
 
 // Load and place the password input zone
 input.image = Image("input.png");
 input.sprite = Sprite(input.image);
-input.sprite.SetX(INPUT_CENTER_PCT.x * screen.width - input.image.GetWidth() / 2);
-input.sprite.SetY(INPUT_CENTER_PCT.y * screen.height - input.image.GetHeight() / 2);
+input.sprite.SetX(PROMPT.center.x * screen.width - input.image.GetWidth() / 2);
+input.sprite.SetY(PROMPT.center.y * screen.height - input.image.GetHeight() / 2);
 
 // Initiate the bullet string
 // We cannot set the position now as the image will change in size
@@ -208,33 +217,36 @@ fun display_password_callback(prompt, n_bullets) {
 
     // Create the string of bullets
     bullets.string = "";
-    while (n_bullets--) bullets.string += BULLET_CHAR;
+    while (n_bullets--) bullets.string += PROMPT.bullet;
 
     // Display placeholder text when necessary
-    if (!bullets.string) bullets.string = INPUT_PLACEHOLDER;
+    if (!bullets.string) bullets.string = PROMPT.placeholder;
 
     #debug(bullets.string);
 
     // Create image from text
     bullets.image = Image.Text(
-        bullets.string,         // The string
-        MAIN_COLOR.RED,           // Red components
-        MAIN_COLOR.GREEN,         // Green component
-        MAIN_COLOR.BLUE,          // Blue component
-        1,                      // Alpha component
-        MAIN_FONT               // Font
+        bullets.string,
+        MAIN_COLOR.red,
+        MAIN_COLOR.green,
+        MAIN_COLOR.blue,
+        1,
+        MAIN_FONT
     );
 
     // Display bullets
     bullets.sprite.SetImage(bullets.image);
-    bullets.sprite.SetX(INPUT_CENTER_PCT.x * screen.width - bullets.image.GetWidth() / 2);
-    bullets.sprite.SetY(INPUT_CENTER_PCT.y * screen.height - bullets.image.GetHeight() / 2);
+    bullets.sprite.SetX(PROMPT.center.x * screen.width - bullets.image.GetWidth() / 2);
+    bullets.sprite.SetY(PROMPT.center.y * screen.height - bullets.image.GetHeight() / 2);
 }
 
 Plymouth.SetDisplayPasswordFunction(display_password_callback);
 
 
 #------------------------------ Display Normal --------------------------------
+#
+# Return to normal progress of the process
+#
 
 fun display_normal_callback() {
     global.status = "normal";
@@ -250,6 +262,9 @@ Plymouth.SetDisplayNormalFunction(display_normal_callback);
 
 
 #----------------------------------------- Quit --------------------------------
+#
+# Exit the process
+#
 
 fun quit_callback() {}
 
