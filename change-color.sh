@@ -69,9 +69,9 @@ change_background() {
     blue=$(normalize_rgb $blue)
 
     # Update main script with RGB values
-    sed -i "s/^BG_COLOR.RED = .*;$/BG_COLOR.RED = $red;/" chain.script
-    sed -i "s/^BG_COLOR.GREEN = .*;$/BG_COLOR.GREEN = $green;/" chain.script
-    sed -i "s/^BG_COLOR.BLUE = .*;$/BG_COLOR.BLUE = $blue;/" chain.script
+    sed -i "s/^BG_COLOR.red = .*;$/BG_COLOR.red = $red;/" chain.script
+    sed -i "s/^BG_COLOR.green = .*;$/BG_COLOR.green = $green;/" chain.script
+    sed -i "s/^BG_COLOR.blue = .*;$/BG_COLOR.blue = $blue;/" chain.script
 }
 
 change_main() {
@@ -94,9 +94,9 @@ change_main() {
     blue=$(normalize_rgb $blue)
 
     # Update main script with RGB values
-    sed -i "s/^MAIN_COLOR.RED = .*;$/MAIN_COLOR.RED = $red;/" chain.script
-    sed -i "s/^MAIN_COLOR.GREEN = .*;$/MAIN_COLOR.GREEN = $green;/" chain.script
-    sed -i "s/^MAIN_COLOR.BLUE = .*;$/MAIN_COLOR.BLUE = $blue;/" chain.script
+    sed -i "s/^MAIN_COLOR.red = .*;$/MAIN_COLOR.red = $red;/" chain.script
+    sed -i "s/^MAIN_COLOR.green = .*;$/MAIN_COLOR.green = $green;/" chain.script
+    sed -i "s/^MAIN_COLOR.blue = .*;$/MAIN_COLOR.blue = $blue;/" chain.script
 }
 
 change_secondary() {
@@ -118,9 +118,9 @@ change_secondary() {
     blue=$(normalize_rgb $blue)
 
     # Update main script with RGB values
-    sed -i "s/^SECONDARY_COLOR.RED = .*;$/SECONDARY_COLOR.RED = $red;/" chain.script
-    sed -i "s/^SECONDARY_COLOR.GREEN = .*;$/SECONDARY_COLOR.GREEN = $green;/" chain.script
-    sed -i "s/^SECONDARY_COLOR.BLUE = .*;$/SECONDARY_COLOR.BLUE = $blue;/" chain.script
+    sed -i "s/^SECONDARY_COLOR.red = .*;$/SECONDARY_COLOR.red = $red;/" chain.script
+    sed -i "s/^SECONDARY_COLOR.green = .*;$/SECONDARY_COLOR.green = $green;/" chain.script
+    sed -i "s/^SECONDARY_COLOR.blue = .*;$/SECONDARY_COLOR.blue = $blue;/" chain.script
 }
 
 ########## MAIN SCRIPT ##########
