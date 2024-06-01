@@ -69,9 +69,9 @@ change_background() {
     blue=$(normalize_rgb $blue)
 
     # Update main script with RGB values
-    sed -i "s/^BG_COLOR.RED = .*;$/BG_COLOR.RED = $red;/" chain.script
-    sed -i "s/^BG_COLOR.GREEN = .*;$/BG_COLOR.GREEN = $green;/" chain.script
-    sed -i "s/^BG_COLOR.BLUE = .*;$/BG_COLOR.BLUE = $blue;/" chain.script
+    sed -i "s/^BG_COLOR.red = .*;$/BG_COLOR.red = $red;/" chain.script
+    sed -i "s/^BG_COLOR.green = .*;$/BG_COLOR.green = $green;/" chain.script
+    sed -i "s/^BG_COLOR.blue = .*;$/BG_COLOR.blue = $blue;/" chain.script
 }
 
 change_main() {
@@ -82,9 +82,9 @@ change_main() {
     is_hexadecimal_color $color || usage
 
     # Change colors in PNGs
-    convert images/bar-progress.png -channel RGB -fuzz 100% -fill $color -opaque $color images/bar-progress.png
-    convert images/lock.png -channel RGB -fuzz 100% -fill $color -opaque $color images/lock.png
-    find ./images/animation -type f -name "*.png" -exec convert {} -channel RGB -fuzz 100% -fill $color -opaque $color {} \;
+    magick images/bar-progress.png -channel RGB -fuzz 100% -fill $color -opaque $color images/bar-progress.png
+    magick images/lock.png -channel RGB -fuzz 100% -fill $color -opaque $color images/lock.png
+    find ./images/animation -type f -name "*.png" -exec magick {} -channel RGB -fuzz 100% -fill $color -opaque $color {} \;
 
     # Store RGB components in vars $red $green and $blue
     read -r red green blue < <(hex_to_rgb $color)
@@ -94,9 +94,9 @@ change_main() {
     blue=$(normalize_rgb $blue)
 
     # Update main script with RGB values
-    sed -i "s/^MAIN_COLOR.RED = .*;$/MAIN_COLOR.RED = $red;/" chain.script
-    sed -i "s/^MAIN_COLOR.GREEN = .*;$/MAIN_COLOR.GREEN = $green;/" chain.script
-    sed -i "s/^MAIN_COLOR.BLUE = .*;$/MAIN_COLOR.BLUE = $blue;/" chain.script
+    sed -i "s/^MAIN_COLOR.red = .*;$/MAIN_COLOR.red = $red;/" chain.script
+    sed -i "s/^MAIN_COLOR.green = .*;$/MAIN_COLOR.green = $green;/" chain.script
+    sed -i "s/^MAIN_COLOR.blue = .*;$/MAIN_COLOR.blue = $blue;/" chain.script
 }
 
 change_secondary() {
@@ -107,8 +107,8 @@ change_secondary() {
     is_hexadecimal_color $color || usage
 
     # Change colors in PNGs
-    convert images/bar-background.png -channel RGB -fuzz 100% -fill $color -opaque $color images/bar-background.png
-    convert images/input.png -channel RGB -fuzz 100% -fill $color -opaque $color images/input.png
+    magick images/bar-background.png -channel RGB -fuzz 100% -fill $color -opaque $color images/bar-background.png
+    magick images/input.png -channel RGB -fuzz 100% -fill $color -opaque $color images/input.png
 
     # Store RGB components in vars $red $green and $blue
     read -r red green blue < <(hex_to_rgb $color)
@@ -118,9 +118,9 @@ change_secondary() {
     blue=$(normalize_rgb $blue)
 
     # Update main script with RGB values
-    sed -i "s/^SECONDARY_COLOR.RED = .*;$/SECONDARY_COLOR.RED = $red;/" chain.script
-    sed -i "s/^SECONDARY_COLOR.GREEN = .*;$/SECONDARY_COLOR.GREEN = $green;/" chain.script
-    sed -i "s/^SECONDARY_COLOR.BLUE = .*;$/SECONDARY_COLOR.BLUE = $blue;/" chain.script
+    sed -i "s/^SECONDARY_COLOR.red = .*;$/SECONDARY_COLOR.red = $red;/" chain.script
+    sed -i "s/^SECONDARY_COLOR.green = .*;$/SECONDARY_COLOR.green = $green;/" chain.script
+    sed -i "s/^SECONDARY_COLOR.blue = .*;$/SECONDARY_COLOR.blue = $blue;/" chain.script
 }
 
 ########## MAIN SCRIPT ##########
