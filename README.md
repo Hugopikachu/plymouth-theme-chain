@@ -84,6 +84,6 @@ Mode can be one of the following
  secondary        Set <color> as secondary color
 ```
 
-**Be aware that [ImageMagick](https://imagemagick.org/) is needed to replace the colors of the animation and other graphical elements.**
+**Be aware that [ImageMagick](https://imagemagick.org/) and [bc](https://www.gnu.org/software/bc/) are needed to replace the colors of the animation and other graphical elements.**
 
 [1]: https://aur.archlinux.org/packages/plymouth-theme-chain
